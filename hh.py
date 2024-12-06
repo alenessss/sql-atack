@@ -51,25 +51,19 @@ def test_sql_injections(url, params, payloads):
             
             results.append({
                 'payload': payload,
-                'status_code': response.status_code,
                 'is_vulnerable': is_vulnerable,
                 'response_snippet': response.text[:200]
             })
         except requests.RequestException as e:
-            print(f'Error during request: {e}')
+            print(f'Ошибка при запросе: {e}')
             results.append({
                 'payload': payload,
-                'status_code': None,
                 'is_vulnerable': False,
                 'error': str(e)
             })
 
 def generate_report(results, report_dir='Отчет'):
     """Функция генерации отчета"""
-    if not results:
-        print('[INFO] Нет данных для анализа.')
-        return
-    
     os.makedirs(report_dir, exist_ok=True)
 
     report_filename = 'Уязвимости.txt'
@@ -92,7 +86,6 @@ def generate_report(results, report_dir='Отчет'):
             f.write('-' * 40 + '\n')
             for vuln in vulnerabilities:
                 f.write(f"Полезная нагрузка: {vuln['payload']}\n")
-                f.write(f"Статус кода: {vuln['status_code']}\n")
                 f.write(f"Фрагмент ответа: {vuln['response_snippet']}\n")
                 f.write('-' * 40 + '\n')
 

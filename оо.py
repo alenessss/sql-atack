@@ -28,44 +28,34 @@ params = {
 results = []
 
 def test_xss_vulnerabilities(url, params, payloads):
-    """Функция для тестирования уязвимости к XSS"""
     for payload in payloads:
-        print(f'Testing payload: {payload}')
+        print(f'Тестирование полезной нагрузки: {payload}')
         params['input'] = payload
 
         try:
             response = requests.get(url, params=params)
             is_vulnerable = False
 
-            # Проверка, экранируется ли payload
             if payload in response.text and escape(payload) not in response.text:
                 is_vulnerable = True
-                print(f'[!] XSS vulnerability detected with payload: {payload}')
+                print(f'[!] Обнаружена уязвимость XSS: {payload}')
             else:
-                print(f'[+] No obvious XSS vulnerability detected for payload: {payload}')
+                print(f'[+] Не обнаружена уязвимость XSS: {payload}')
 
             results.append({
                 'payload': payload,
-                'status_code': response.status_code,
                 'is_vulnerable': is_vulnerable,
-                'response_snippet': response.text[:200]  # Показать только первые 200 символов ответа
+                'response_snippet': response.text[:200]
             })
         except requests.RequestException as e:
-            print(f'Error during request: {e}')
+            print(f'Ошибка при запросе: {e}')
             results.append({
                 'payload': payload,
-                'status_code': None,
                 'is_vulnerable': False,
                 'error': str(e)
             })
 
 def generate_report(results, report_dir='Отчет'):
-
-    """Функция генерации отчета"""
-    if not results:
-        print('[INFO] Нет данных для анализа.')
-        return
-    
     os.makedirs(report_dir, exist_ok=True)
 
     report_filename = 'Уязвимости XSS.txt'
@@ -79,23 +69,22 @@ def generate_report(results, report_dir='Отчет'):
 
     try:
         with open(report_path, 'w') as f:
-            f.write('XSS Vulnerability Testing Report\n')
+            f.write('Отчет о тестировании XSS-атаки\n')
             f.write('=' * 40 + '\n')
-            f.write(f'Testing Date: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
-            f.write(f'Total Tests Conducted: {total_tests}\n')
-            f.write(f'Total Vulnerabilities Found: {total_vulnerable}\n\n')
+            f.write(f'Дата проверки: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
+            f.write(f'Всего проведено тестов: {total_tests}\n')
+            f.write(f'Всего найдено уязвимостей: {total_vulnerable}\n\n')
 
-            f.write('Detailed Vulnerability Information:\n')
+            f.write('Подробная информация об уязвимости:\n')
             f.write('-' * 40 + '\n')
             for vuln in vulnerabilities:
-                f.write(f"Payload: {vuln['payload']}\n")
-                f.write(f"Status Code: {vuln['status_code']}\n")
-                f.write(f"Response Snippet: {vuln['response_snippet']}\n")
+                f.write(f"Полезная нагрузка: {vuln['payload']}\n")
+                f.write(f"Фрагмент ответа: {vuln['response_snippet']}\n")
                 f.write('-' * 40 + '\n')
 
-            print(f'[INFO] Report saved to: {report_path}')
+            print(f'[INFO] Отчет сохранен в: {report_path}')
     except Exception as e:
-        print(f'[ERROR] Error while saving the report: {e}')
+        print(f'[ERROR] Ошибка при сохранении отчета: {e}')
 
 if __name__ == '__main__':
     # Запуск тестирования

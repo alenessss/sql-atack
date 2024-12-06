@@ -4,6 +4,7 @@ app = Flask(__name__) #В данной строке мы создание экз
 
 @app.route('/login', methods=['GET'])
 def login():
+    #Задаем переменные
     username = request.args.get('username', '')
     password = request.args.get('password', '')
     
