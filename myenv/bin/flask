@@ -1,4 +1,4 @@
-#!/home/alena/example/myenv/bin/python3
+#!/home/alena/sql/myenv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

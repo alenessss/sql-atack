@@ -1,0 +1,93 @@
+Отчет о тестировании XSS атак
+========================================
+Дата проверки: 2024-12-10 20:57:03
+Всего тестов: 5
+Количество уязвимостей: 5
+
+Подробности о найденных уязвимостях:
+----------------------------------------
+Полезная нагрузка: <script>alert('XSS')</script>
+Ответ сервера: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List</title>
+</head>
+<body>
+    <h1>Добавить пользвотеля в базу</h1>
+    <form action="/add" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required><br>
+      
+
+Полезная нагрузка: <img src='x' onerror='alert(1)'>
+Ответ сервера: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List</title>
+</head>
+<body>
+    <h1>Добавить пользвотеля в базу</h1>
+    <form action="/add" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required><br>
+      
+
+Полезная нагрузка: <script>document.write('<img src=x onerror=alert(1)>');</script>
+Ответ сервера: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List</title>
+</head>
+<body>
+    <h1>Добавить пользвотеля в базу</h1>
+    <form action="/add" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required><br>
+      
+
+Полезная нагрузка: <svg/onload=alert(1)>
+Ответ сервера: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List</title>
+</head>
+<body>
+    <h1>Добавить пользвотеля в базу</h1>
+    <form action="/add" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required><br>
+      
+
+Полезная нагрузка: <iframe src='javascript:alert(1)'></iframe>
+Ответ сервера: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List</title>
+</head>
+<body>
+    <h1>Добавить пользвотеля в базу</h1>
+    <form action="/add" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required><br>
+      
+

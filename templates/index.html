@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List</title>
+</head>
+<body>
+    <h1>Добавить пользвотеля в базу</h1>
+    <form action="/add" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required><br>
+        <input type="submit" value="Add User">
+    </form>
+
+    <h2>Пользовтели:</h2>
+    <ul>
+        {% for user in users %}
+            <li>{{ user.username }} - {{ user.email }}</li> <!-- Отображаем данные без экранирования -->
+        {% endfor %}
+    </ul>
+
+    <h2>Test XSS:</h2>
+    <form action="/" method="GET">
+        <label for="message">Message:</label>
+        <input type="text" name="message" id="message"><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    {% if message %}
+        <!-- Здесь тоже выводим введенное сообщение без экранирования, чтобы была уязвимость XSS -->
+        <div>
+            <p>{{ message | safe }}</p>  <!-- Добавление фильтра safe позволяет выполнить JavaScript -->
+        </div>
+    {% endif %}
+</body>
+</html>
