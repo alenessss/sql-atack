@@ -18,7 +18,7 @@
 1. Клонируйте репозиторий на ваш локальный компьютер:
 
    ```bash
-   git@github.com:alenessss/sql.git
+   git clone git@github.com:alenessss/sql-atack.git
    cd sql
 
 2. Активируйте виртуальное окружение:
